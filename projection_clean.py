@@ -26,19 +26,21 @@ patronus_options = [
     "giraffe",
     "horse",
     "lion",
+    "otter",
     "owl",
     "phoenix",
+    "rabbit",
     "stag",
-    "swirl",
     "tiger",
-    "vortex",
-    "wisps_1",
+    "wisps",
+    "wisps_2",
     "wolf"
 ]
 
 
-def patronus(still):
-    patronus_name = random.choice(patronus_options)
+
+def patronus(still, patronus_name):
+    
     #patronus_name = patronus_options[2]
     vid = 'sample_images/' + patronus_name + '.mp4'
     cap = cv.VideoCapture(vid)
@@ -51,13 +53,15 @@ def patronus(still):
             still2 = cv.resize(still2, (still.shape[1], still.shape[0]))
             output = cv.addWeighted(still, .9, still2, .9, 0)
             #output = cv.resize(output, (output.shape[1]*2, output.shape[0]*2))
-            cv.imshow("Show", output)
-            key = cv.waitKey(42)
+            #cv.flip(output, flipCode=0)
+            cv.imshow("", output)
+            key = cv.waitKey(25)
         else:
             key = ord('s')
             cap.release()
             #cv.destroyAllWindows()
             return
+    
 
 
 
@@ -72,22 +76,32 @@ def write_serial(x):
 print("Starting")
 
 
-
-height = 1880
-width = 1040
+height = 720
+width = 480
+#height = 1880
+#width = 1040
+#height = 3760
+#width = 2080
 if __name__=='__main__':
-    #black_image = np.zeros((width,height, 3), dtype = np.uint8)
+    #black_image = np.zeros((width,height, 3), dtype = np.uilnt8)
+    patronus_options_working = patronus_options.copy()
+    
     black_image = np.ones((width,height, 3), dtype = np.uint8)
     #patronus()
-    cv.imshow("Show", black_image)
+    cv.imshow("", black_image)
     while True:
         key = cv.waitKey(5)
         user_input = input()
         if len(user_input) <= 0:
             continue
         else:
-            patronus(black_image)
-            cv.imshow("Show", black_image)
+            patronus_name = random.choice(patronus_options_working)
+            patronus_options_working.remove(patronus_name)
+            patronus(black_image, patronus_name)
+            if patronus_options_working == []:
+                patronus_options_working = patronus_options.copy()
+            cv.imshow("", black_image)
+            
     cv.destroyAllWindows()
         
 
