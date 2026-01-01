@@ -53,7 +53,7 @@ def patronus(still, patronus_name):
             still2 = cv.resize(still2, (still.shape[1], still.shape[0]))
             output = cv.addWeighted(still, .9, still2, .9, 0)
             #output = cv.resize(output, (output.shape[1]*2, output.shape[0]*2))
-            #cv.flip(output, flipCode=0)
+            output = cv.flip(output, flipCode=0)
             cv.imshow("", output)
             key = cv.waitKey(25)
         else:
